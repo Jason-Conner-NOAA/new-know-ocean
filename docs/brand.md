@@ -1,6 +1,6 @@
 # KnowOcean brand and image register
 
-Source audit: 20 November 2026. KnowOcean informs the palette; EGU Blogs informs how readers find and scan articles. Neither reference site's artwork, fonts, CSS or copy is bundled here.
+Source audit: 20 November 2026. KnowOcean informs the palette; EGU Blogs informs how readers find and scan articles. The publisher supplied the KnowOcean artwork and confirmed permission to use it on this site.
 
 ## Reference evidence
 
@@ -13,7 +13,7 @@ Source audit: 20 November 2026. KnowOcean informs the palette; EGU Blogs informs
 | `#a8adac` | Secondary neutral: captions, footer links, current navigation item and input borders. |
 | `#f9fafa`, `#fafafa`, `#fff` | Feature fallback, code/select surfaces, and button text respectively. The body uses a fixed [ocean image](https://knowocean.org/assets/images/OceanDepths_bg.png), not a single verified brand background HEX. |
 
-The header image and shortcut icon point to the same [original SVG](https://knowocean.org/assets/logos/logo.svg). The response contains a 1024 × 1024 vector drawing with many colored paths, including `#082832` and `#258a9b`; these are artwork fills, not link or text tokens. This is the best verified original. The head also advertises PNG favicon/touch variants at 16, 32, 96, 120, 144, 180, 512 and 1024 px. All advertised paths returned 404 when checked, including the [180 px touch icon](https://knowocean.org/assets/logos/logo@180px.png) and [largest PNG](https://knowocean.org/assets/logos/logo@1024px.png). The root ICO and linked manifest also returned 404. No logo-specific reuse permission was verified; use the local sounding-line design rather than tracing the SVG or assuming the theme licenses the logo.
+The [compact mark](../assets/images/brand/compact-mark.svg) is the masthead and browser favicon: a deep-blue disc, one teal swell and an outlined paper-colored K. Its 62-unit disc fills a 64-unit square, leaving just enough inset for the antialiased edge. When editing it, re-export the transparent 16 and 32 px PNG favicon fallbacks from the same SVG. Keep the [supplied detailed logo](../assets/images/brand/logo.svg) and its matching raster artwork for large compositions, social cards and the podcast cover. Apple and Android icons are unchanged.
 
 **Public contact:** No KnowOcean mailbox was verified on the homepage or pages listed in its [sitemap](https://knowocean.org/sitemap.xml) (checked on the KnowOcean host despite the sitemap's Alembic canonical host). The [origin story](https://knowocean.org/blog/2024/11/10/origin-story/) has a recipient-less email **share** link; the [elements page](https://knowocean.org/elements/) shows a sample address. Neither is a contact. The `/contact/` and `/about/` routes returned 404. Obtain a confirmed address from the publisher rather than using a guessed one.
 
@@ -21,7 +21,7 @@ The header image and shortcut icon point to the same [original SVG](https://know
 
 ## Local palette and contrast
 
-The [site stylesheet](../assets/css/site.css) retains the source accent, ink and gray. Paper (`#fbfaf5`), section surface (`#eeefe7`), dark link (`#006a4b`), muted text (`#52615b`), divider (`#cbcec3`) and cover emphasis (`#b6e4cc`) are local adaptations. Navigation inherits its section's text color. Georgia headings, system sans body type and monospace labels require no hosted font. The SVG mark and favicon use a near-paper `#fcfaf2` dot.
+The [site stylesheet](../assets/css/site.css) retains the source accent, ink and gray. Paper (`#fbfaf5`), section surface (`#eeefe7`), dark link (`#006a4b`), muted text (`#52615b`), divider (`#cbcec3`) and cover emphasis (`#b6e4cc`) are local adaptations. Navigation inherits its section's text color. Georgia headings, system sans body type and monospace labels require no hosted font. The browser theme and card titles use the logo's deep blue `#082832`.
 
 [WCAG contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), calculated from linearized sRGB relative luminance, rounded to two decimals:
 
@@ -45,8 +45,5 @@ From the workspace root, run `& .\_tools\make-home-images.ps1` in Windows PowerS
 |---|---:|---:|
 | [Mobile hero JPEG](../assets/images/san-miguel-small.jpg) | 720 × 540 | 33,879 |
 | [Large hero JPEG](../assets/images/san-miguel.jpg) | 1440 × 1080 | 126,356 |
-| [Apple touch PNG](../assets/images/brand/apple-touch-icon.png) | 180 × 180 | 2,689 |
-| [Social preview PNG](../assets/images/brand/social.png) | 1200 × 630 | 21,534 |
-| [Podcast cover template PNG](../assets/images/brand/podcast-artwork-template.png) | 3000 × 3000 | 111,332 |
 
-Both JPEG widths match the homepage `srcset` descriptors. The [header mark](../assets/images/brand/mark.svg) (64-unit viewBox) and [favicon](../assets/images/brand/favicon.svg) (32-unit viewBox) are separate local vectors. Edge rendered the simplified favicon with visible green strokes at both 16 and 32 px. The touch icon, social card and opaque 24-bit RGB podcast template use the same local sounding-line motif. These are original project designs; no third-party logo license is asserted and no separate public reuse license is granted here. Edit the square-cover block in the generator to change its title or typography. This is a template, not submitted show artwork; no feed or contact configuration has been changed or validated.
+To regenerate only the branding, run `& .\_tools\make-brand-images.ps1` in Windows PowerShell. The [offline generator](../_tools/make-brand-images.ps1) uses the supplied transparent PNG for a 192 px Android icon, a padded 512 px maskable icon, a [1200 × 630 social card](../assets/images/brand/social.png), and an [opaque 3000 × 3000 podcast cover](../assets/images/brand/podcast-artwork-template.png). The cover is configured as show artwork; episode-specific images still take precedence. No public reuse license or podcast directory submission is implied.

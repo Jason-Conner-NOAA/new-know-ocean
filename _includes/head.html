@@ -30,7 +30,14 @@ normalize_whitespace -%}
 <link rel="canonical" href="{{ canonical | escape }}">
 <link rel="alternate" type="application/atom+xml" title="{{ publication | escape }} blog feed"
     href="{{ '/feed.xml' | relative_url }}">
-<link rel="icon" type="image/svg+xml" href="{{ '/assets/images/brand/favicon.svg' | relative_url }}">
+{% for size in (1..2) %}{% assign px = size | times: 16 %}
+<link rel="icon" type="image/png" sizes="{{ px }}x{{ px }}"
+    href="{{ '/assets/images/brand/compact-mark-' | append: px | append: '.png' | relative_url }}">
+{% endfor %}
+<link rel="icon" type="image/svg+xml" sizes="any" href="{{ '/assets/images/brand/compact-mark.svg' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/brand/logo_180.png' | relative_url }}">
+<link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
+<meta name="theme-color" content="#082832">
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:site_name" content="{{ publication | escape }}">
@@ -63,7 +70,8 @@ normalize_whitespace -%}
 }}},{% endif %}
 {% endif %}
 {% if page.date %}"datePublished": {{ page.date | date_to_xmlschema | jsonify }},{% endif %}
-"publisher": {"@type": "Organization", "name": {{ publication | jsonify }}, "url": {{ '/' | absolute_url | jsonify }}}
+"publisher": {"@type": "Organization", "name": {{ publication | jsonify }}, "url": {{ '/' | absolute_url | jsonify }},
+"logo": {{ '/assets/images/brand/logo_512.png' | absolute_url | jsonify }}}
 }
 {%- endcapture -%}
 <script type="application/ld+json">{{ structured_data | replace: '<', '\u003c' }}</script>

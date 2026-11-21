@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">KnowOcean — sounding lines</title>
-  <rect x="1" y="1" width="62" height="62" rx="31" fill="#242e2b"/>
-  <g fill="none" stroke="#05bf85" stroke-width="3" stroke-linecap="round">
-    <path d="M10 31c12 3 16-11 28-8 7 2 9 5 16 3M10 39c12 3 16-11 28-8 7 2 9 5 16 3M14 46c10 1 15-10 24-7 6 1 8 4 13 3"/>
-  </g><circle cx="23" cy="17" r="3" fill="#fcfaf2"/>
-</svg>

@@ -7,7 +7,7 @@ category: Science
 author:
 owner_name:
 owner_email:
-artwork:
+artwork: /assets/images/brand/podcast-artwork-template.png
 platforms: []
 # Enable only after validating the production feed and media. See docs/PODCAST.md.
 advertise_feed: false
