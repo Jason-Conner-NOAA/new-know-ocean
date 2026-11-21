@@ -1,0 +1,41 @@
+---
+layout: null
+permalink: /podcast/feed.xml
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+{% assign show = site.data.podcast -%}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>{{ show.title | xml_escape }}</title>
+    <description>{{ show.description | xml_escape }}</description>
+    <link>{{ '/podcast/' | absolute_url | xml_escape }}</link>
+    <atom:link href="{{ '/podcast/feed.xml' | absolute_url | xml_escape }}" rel="self" type="application/rss+xml"/>
+    <language>{{ show.language | xml_escape }}</language>
+    <itunes:type>episodic</itunes:type>
+    <itunes:explicit>{{ show.explicit }}</itunes:explicit>
+    {% if show.author %}<itunes:author>{{ show.author | xml_escape }}</itunes:author>{% endif %}
+    {% if show.owner_name and show.owner_email %}<itunes:owner><itunes:name>{{ show.owner_name | xml_escape }}</itunes:name><itunes:email>{{ show.owner_email | xml_escape }}</itunes:email></itunes:owner>{% endif %}
+    {% if show.category %}<itunes:category text="{{ show.category | xml_escape }}"/>{% endif %}
+    {% if show.artwork %}<itunes:image href="{{ show.artwork | absolute_url | xml_escape }}"/>{% endif %}
+    {% assign none = '' | split: ',' %}
+    {% assign episodes = site.episodes | default: none | where_exp: 'ep', 'ep.date <= site.time' | where_exp: 'ep', 'ep.published != false' | sort: 'date' | reverse %}
+    {% for ep in episodes %}
+      {% capture eligible %}{% include podcast/feed-eligible.html episode=ep %}{% endcapture %}
+      {% if eligible contains 'yes' %}
+      <item>
+        <title>{{ ep.title | xml_escape }}</title>
+        <description>{{ ep.description | xml_escape }}</description>
+        <link>{{ ep.url | absolute_url | xml_escape }}</link>
+        {% assign fallback_guid = ep.url | absolute_url %}<guid isPermaLink="false">{{ ep.guid | default: fallback_guid | xml_escape }}</guid>
+        <pubDate>{{ ep.date | date_to_rfc822 }}</pubDate>
+        <enclosure url="{{ ep.audio_url | absolute_url | xml_escape }}" length="{{ ep.audio_bytes }}" type="{{ ep.audio_type | xml_escape }}"/>
+        {% if ep.duration %}<itunes:duration>{{ ep.duration | xml_escape }}</itunes:duration>{% endif %}
+        {% if ep.episode_number %}<itunes:episode>{{ ep.episode_number | xml_escape }}</itunes:episode>{% endif %}
+        {% if ep.artwork %}<itunes:image href="{{ ep.artwork | absolute_url | xml_escape }}"/>{% endif %}
+        {% if ep.explicit == nil %}<itunes:explicit>{{ show.explicit }}</itunes:explicit>{% else %}<itunes:explicit>{{ ep.explicit }}</itunes:explicit>{% endif %}
+      </item>
+      {% endif %}
+    {% endfor %}
+  </channel>
+</rss>

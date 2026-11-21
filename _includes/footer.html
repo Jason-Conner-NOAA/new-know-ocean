@@ -1,0 +1,18 @@
+<footer class="footer">
+    <div class="wrap">
+        <p><strong>{{ site.title | default: 'KnowOcean' | escape }}</strong>{% if site.description %}<br>{{
+            site.description | escape }}{% endif %}</p>
+        <nav aria-label="Footer">{% for item in site.data.navigation.footer %}
+            <a href="{{ item.url | relative_url | escape }}">{{ item.name | escape }}</a>
+            {% endfor %}
+        </nav>
+        {% if site.email and site.email != empty %}<a href="mailto:{{ site.email | escape }}">{{ site.email | escape
+            }}</a>{% endif %}
+        {% if site.data.social.size > 0 %}
+        <nav aria-label="Social links">{% for account in site.data.social %}
+            <a href="{{ account.url | escape }}">{{ account.name | escape }}</a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+    </div>
+</footer>

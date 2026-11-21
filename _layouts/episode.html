@@ -1,0 +1,53 @@
+---
+layout: default
+---
+<article>
+    <header>
+        <p class="eyebrow">{{ site.data.podcast.title | escape }}{% if page.episode_number %} · Episode {{
+            page.episode_number | escape }}{% endif %}</p>
+        <h1>{{ page.title | escape }}</h1>
+        <p>{{ page.description | escape }}</p>
+        <p><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time>{% if
+            page.duration %} · {{ page.duration | escape }}{% endif %}</p>
+        {% assign cover = page.artwork | default: site.data.podcast.artwork %}
+        {% if cover %}<img src="{{ cover | relative_url | escape }}" width="320" style="max-width:100%;height:auto"
+            alt="">{% endif %}
+    </header>
+    {% include podcast/audio.html episode=page %}
+    {% include podcast/platforms.html links=page.listening_links %}
+    {% if page.guest.name %}<section>
+        <h2 class="section-title">Guest: {{ page.guest.name | escape }}</h2>{% if page.guest.bio %}<p>{{ page.guest.bio
+            | escape }}</p>{% endif %}
+    </section>{% endif %}
+    {% assign notes = content | strip %}
+    {% if notes != empty %}<section class="prose">
+        <h2 class="section-title">Show notes</h2>{{ content }}
+    </section>{% endif %}
+    {% if page.chapters.size > 0 %}
+    <section>
+        <h2 class="section-title">Chapters</h2>
+        <ol>{% for chapter in page.chapters %}<li>{{ chapter.time | escape }} — {{ chapter.title | escape }}</li>{%
+            endfor %}</ol>
+    </section>
+    {% endif %}
+    {% if page.transcript or page.transcript_url %}
+    <section class="prose">
+        <h2 class="section-title">Transcript</h2>{{ page.transcript | default: '' | markdownify }}
+        {% if page.transcript_url %}<p><a class="text-link"
+                href="{{ page.transcript_url | relative_url | escape }}">Read the transcript</a></p>{% endif %}
+    </section>
+    {% endif %}
+    {% capture related %}
+    {% for path in page.related_urls %}
+    {% assign match = site.documents | where: 'url', path | first %}
+    {% if match and match.url != page.url and match.date <= site.time and match.published !=false %}<li><a
+            class="text-link" href="{{ match.url | relative_url }}">{{ match.title | escape }}</a></li>{% endif %}
+        {% endfor %}
+        {% endcapture %}
+        {% assign related = related | strip %}
+        {% if related != empty %}<section>
+            <h2 class="section-title">Related reading and listening</h2>
+            <ul>{{ related }}</ul>
+        </section>{% endif %}
+</article>
+{% include podcast/nav.html %}

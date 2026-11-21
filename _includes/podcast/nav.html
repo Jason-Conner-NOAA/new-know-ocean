@@ -1,0 +1,11 @@
+<nav aria-label="Podcast section">
+    <ul>
+        {% assign paths = '/podcast/,/podcast/episodes/,/podcast/guests/,/podcast/about/,/podcast/subscribe/' | split:
+        ',' %}
+        {% assign labels = 'Podcast home,Episodes,Guests,About the show,Subscribe' | split: ',' %}
+        {% for path in paths %}
+        <li><a class="text-link" href="{{ path | relative_url }}" {% if page.url==path %} aria-current="page" {% endif
+                %}>{{ labels[forloop.index0] }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

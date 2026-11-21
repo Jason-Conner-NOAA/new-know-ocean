@@ -1,0 +1,56 @@
+{% assign none = '' | split: ',' %}
+{% assign episodes = site.episodes | default: none | where_exp: 'ep', 'ep.date <= site.time' | where_exp: 'ep'
+    , 'ep.published != false' | sort: 'date' | reverse %} {% case include.view %} {% when 'home' %} {% if episodes.size>
+    0 %}
+    {% assign featured = episodes | where: 'featured', true | first | default: episodes.first %}
+    <section class="panel">
+        <h2 class="section-title">Featured episode</h2>{% include podcast/entry.html episode=featured %}
+    </section>
+    <p><a class="text-link" href="{{ '/podcast/episodes/' | relative_url }}">Browse all episodes</a></p>
+    {% else %}
+    <section class="panel">
+        <p class="eyebrow">Before the first episode</p>
+        <h2 class="section-title">Coming soon</h2>
+        <p>The first conversation will appear here with its recording and show notes.</p>
+    </section>
+    {% endif %}
+    {% when 'archive' %}
+    <section>
+        <h2 class="section-title">Episode archive</h2>
+        {% for episode in episodes %}{% include podcast/entry.html episode=episode %}{% else %}<p>No episodes have been
+            published yet.</p>{% endfor %}
+    </section>
+    {% when 'guests' %}
+    {% assign groups = episodes | group_by_exp: 'ep', 'ep.guest.name' | sort: 'name' %}
+    {% assign has_guest = false %}
+    {% for group in groups %}
+    {% if group.name and group.name != empty %}
+    {% assign has_guest = true %}
+    <section>
+        <h2 class="section-title">{{ group.name | escape }}</h2>
+        {% if group.items.first.guest.bio %}<p>{{ group.items.first.guest.bio | escape }}</p>{% endif %}
+        <ul>{% for ep in group.items %}<li><a class="text-link" href="{{ ep.url | relative_url }}">{{ ep.title | escape
+                    }}</a></li>{% endfor %}</ul>
+    </section>
+    {% endif %}
+    {% endfor %}
+    {% unless has_guest %}<p>Guest profiles will appear here when an episode with a guest is published.</p>{% endunless
+    %}
+    {% when 'subscribe' %}
+    {% assign feed_available = false %}
+    {% if site.data.podcast.advertise_feed == true %}
+    {% for ep in episodes %}
+    {% capture eligible %}{% include podcast/feed-eligible.html episode=ep %}{% endcapture %}
+    {% if eligible contains 'yes' %}{% assign feed_available = true %}{% break %}{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% capture platforms %}{% if episodes.size > 0 %}{% include podcast/platforms.html links=site.data.podcast.platforms
+    %}{% endif %}{% endcapture %}
+    {% assign platforms = platforms | strip %}
+    {% if platforms != empty or feed_available %}
+    {{ platforms }}
+    {% if feed_available %}<p><a class="button" href="{{ '/podcast/feed.xml' | relative_url }}">Podcast RSS feed</a></p>
+    {% endif %}
+    {% else %}<p class="panel">Subscriptions are not open yet. Listening options will appear here once they are
+        available.</p>{% endif %}
+    {% endcase %}

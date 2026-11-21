@@ -1,0 +1,8 @@
+{% if include.episode.audio_url and include.episode.audio_url != empty %}
+{% assign media = include.episode.audio_url | relative_url | escape %}
+<section aria-label="Episode audio">
+    <audio controls preload="none" style="width:100%" aria-label="Listen to {{ include.episode.title | escape }}"
+        src="{{ media }}"></audio>
+    <a class="text-link" href="{{ media }}">Open audio file</a>
+</section>
+{% endif %}

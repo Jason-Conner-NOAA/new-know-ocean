@@ -1,0 +1,6 @@
+---
+layout: page
+---
+{% if page.taxonomy_kind == 'category' %}<a class="text-link" href="{{ '/blog/categories/' | relative_url }}">All
+    categories</a>{% else %}<a class="text-link" href="{{ '/blog/tags/' | relative_url }}">All tags</a>{% endif %}
+{% include editorial-list.html heading='h2' %}

@@ -1,0 +1,62 @@
+---
+layout: default
+---
+<article>
+    <header>
+        <p class="eyebrow"><a href="{{ '/blog/' | relative_url }}">Blog</a>{% for name in page.categories %}{% assign
+            term = site.data.editorial_categories[name] %} · <a href="{{ term.url | relative_url }}">{{ name | escape
+                }}</a>{% endfor %}</p>
+        <h1>{{ page.title | escape }}</h1>
+        {% assign deck = page.subtitle | default: page.description %}{% if deck %}<p>{{ deck | escape }}</p>{% endif %}
+        {% include article-meta.html post=page %}
+    </header>
+    {% assign photo = page.featured_image | default: page.image %}
+    {% if photo %}<figure><img src="{{ photo.path | default: photo | relative_url | escape }}"
+            alt="{{ page.image_alt | default: photo.alt | escape }}">{% if page.image_caption %}<figcaption>{{
+            page.image_caption | escape }}</figcaption>{% endif %}</figure>{% endif %}
+    {% unless page.toc == false %}
+    <nav hidden data-article-toc aria-label="On this page">
+        <p class="eyebrow">On this page</p>
+        <ol></ol>
+    </nav>
+    <script defer src="{{ '/assets/js/article-toc.js' | relative_url }}"></script>
+    {% endunless %}
+    <div class="prose" data-article-body>{{ content }}</div>
+    <footer>
+        {% if page.tags.size > 0 %}<p>Tags: {% for name in page.tags %}{% assign term = site.data.editorial_tags[name]
+            %}<a href="{{ term.url | relative_url }}">{{ name | escape }}</a>{% unless forloop.last %}, {% endunless
+            %}{% endfor %}</p>{% endif %}
+        {% if page.author %}{% assign profile = site.data.authors[page.author] %}{% if profile.bio %}<h2>About {{
+            profile.name | default: page.author | escape }}</h2>
+        <p>{{ profile.bio | escape }}</p>{% endif %}{% endif %}
+        {% assign share_url = page.url | absolute_url | url_encode %}
+        <p>Share this article: <a
+                href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url }}">LinkedIn</a> · <a
+                href="mailto:?subject={{ page.title | url_encode }}&amp;body={{ share_url }}">Email</a></p>
+    </footer>
+</article>
+{% if page.previous or page.next %}<nav aria-label="Adjacent articles">
+    {% if page.previous %}<p>Previous article: <a rel="prev" href="{{ page.previous.url | relative_url }}">{{
+            page.previous.title | escape }}</a></p>{% endif %}
+    {% if page.next %}<p>Next article: <a rel="next" href="{{ page.next.url | relative_url }}">{{ page.next.title |
+            escape }}</a></p>{% endif %}
+</nav>{% endif %}
+{% assign related_count = 0 %}
+{% for candidate in site.posts %}
+{% if candidate.url == page.url %}{% continue %}{% endif %}
+{% assign match = false %}
+{% for name in page.categories %}{% if candidate.categories contains name %}{% assign match = true %}{% break %}{% endif
+%}{% endfor %}
+{% unless match %}{% for name in page.tags %}{% if candidate.tags contains name %}{% assign match = true %}{% break %}{%
+endif %}{% endfor %}{% endunless %}
+{% if match %}
+{% if related_count == 0 %}<section>
+    <h2 class="section-title">Related articles</h2>
+    <div class="article-list">{% endif %}
+        {% include article.html post=candidate heading='h3' %}
+        {% assign related_count = related_count | plus: 1 %}{% if related_count == 3 %}{% break %}{% endif %}
+        {% endif %}
+        {% endfor %}
+        {% if related_count > 0 %}</div>
+</section>{% endif %}
+{% include newsletter.html %}

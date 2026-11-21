@@ -1,0 +1,26 @@
+<header class="masthead">
+    <div class="wrap">
+        <a class="brand" href="{{ '/' | relative_url }}"><img src="{{ '/assets/images/brand/mark.svg' | relative_url }}"
+                width="42" height="42" alt="">{{ site.title | default: 'KnowOcean' | escape }}</a>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul>{% for item in site.data.navigation.primary %}
+                <li><a href="{{ item.url | relative_url | escape }}" {% if page.url==item.url %} aria-current="page" {%
+                        endif %}>{{ item.name | escape }}</a></li>
+                {% endfor %}
+                <li><a href="{{ '/search/' | relative_url }}" {% if page.url=='/search/' %}aria-current="page" {% endif
+                        %}>Search</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{% if site.data.topics.size > 0 %}
+<nav class="topic-bar" aria-label="Topics">
+    <div class="wrap"><strong>Topics</strong>
+        <ul>{% for topic in site.data.topics %}
+            {% assign term = site.data.editorial_categories[topic.name] %}
+            {% if term %}<li><a href="{{ term.url | relative_url | escape }}" {% if page.url==term.url %}
+                    aria-current="page" {% endif %}>{{ topic.name | escape }}</a></li>{% endif %}
+            {% endfor %}</ul>
+    </div>
+</nav>
+{% endif %}

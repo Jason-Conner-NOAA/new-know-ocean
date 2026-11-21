@@ -1,0 +1,5 @@
+{% for platform in include.links %}
+{% if platform.label and platform.url and platform.label != empty and platform.url != empty %}
+<p><a class="button" href="{{ platform.url | relative_url | escape }}">{{ platform.label | escape }}</a></p>
+{% endif %}
+{% endfor %}

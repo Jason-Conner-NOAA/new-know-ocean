@@ -1,0 +1,17 @@
+<div class="article-list">
+    {% for item in page.listing_posts %}
+    {% include article.html post=item heading=include.heading %}
+    {% else %}
+    <p>No articles have been published here yet. <a class="text-link"
+            href="{{ '/explore/topics/' | relative_url }}">Browse topics</a>.</p>
+    {% endfor %}
+</div>
+{% if page.pagination.total > 1 %}
+<nav aria-label="Article list pages">
+    {% if page.pagination.previous %}<a rel="prev" href="{{ page.pagination.previous | relative_url }}">← Newer
+        articles</a> · {% endif %}
+    <span aria-current="page">Page {{ page.pagination.number }} of {{ page.pagination.total }}</span>
+    {% if page.pagination.next %} · <a rel="next" href="{{ page.pagination.next | relative_url }}">Older articles
+        →</a>{% endif %}
+</nav>
+{% endif %}

@@ -1,0 +1,7 @@
+{%- assign e = include.episode -%}
+{%- assign bytes = e.audio_bytes | plus: 0 -%}
+{%- assign byte_string = bytes | append: '' -%}
+{%- assign raw_bytes = e.audio_bytes | append: '' -%}
+{%- assign mime = e.audio_type | default: '' | slice: 0, 6 -%}
+{%- if e.title and e.description and e.audio_url and e.title != empty and e.description != empty and e.audio_url !=
+empty and mime == 'audio/' and bytes > 0 and byte_string == raw_bytes -%}yes{%- endif -%}

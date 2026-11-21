@@ -1,0 +1,11 @@
+{%- assign doc = include.post -%}
+{%- assign minutes = doc.reading_time -%}
+{%- unless minutes -%}
+{%- assign minutes = doc.content | strip_html | number_of_words | plus: 199 | divided_by: 200 | at_least: 1 -%}
+{%- endunless -%}
+<p class="article-meta">
+    {% if doc.author %}{% assign profile = site.data.authors[doc.author] %}By {{ profile.name | default: doc.author |
+    escape }} · {% endif %}
+    <time datetime="{{ doc.date | date_to_xmlschema }}">{{ doc.date | date: '%B %-d, %Y' }}</time> · {{ minutes | escape
+    }} min read
+</p>

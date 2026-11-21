@@ -1,0 +1,8 @@
+{% assign picks = site.posts | where: 'featured', true %}
+{% if picks.size > 0 %}
+<section aria-labelledby="featured-heading">
+    <h2 class="section-title" id="featured-heading">Featured articles</h2>
+    <div class="article-list">{% for pick in picks limit:3 %}{% include article.html post=pick heading='h3' %}{% endfor
+        %}</div>
+</section>
+{% endif %}

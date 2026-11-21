@@ -1,0 +1,21 @@
+---
+layout: page
+title: Authors
+description: Meet the contributors and browse their published articles.
+permalink: /explore/authors/
+---
+{% assign configured = '' | split: '' %}
+{% for pair in site.data.authors %}{% assign configured = configured | push: pair[0] %}{% endfor %}
+{% assign bylines = site.posts | map: 'author' | compact %}
+{% assign ids = configured | concat: bylines | uniq | sort %}
+{% for id in ids %}
+{% assign profile = site.data.authors[id] %}
+{% assign contributions = site.posts | where: 'author', id %}
+<section>
+    <h2 class="section-title">{{ profile.name | default: id | escape }}</h2>
+    {% if profile.bio %}<p>{{ profile.bio | escape }}</p>{% endif %}
+    {% if contributions.size > 0 %}<ul>{% for work in contributions %}<li><a href="{{ work.url | relative_url }}">{{
+                work.title | escape }}</a></li>{% endfor %}</ul>{% else %}<p>No articles published yet.</p>{% endif %}
+</section>
+{% else %}<p>No contributor profiles or bylines yet. <a class="text-link"
+        href="{{ '/explore/topics/' | relative_url }}">Explore the topics</a>.</p>{% endfor %}

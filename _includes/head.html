@@ -1,0 +1,69 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- assign publication = site.title | default: 'KnowOcean' -%}
+{%- assign headline = page.title | default: publication -%}
+{%- capture browser_title -%}{% if page.url != '/' and headline != publication %}{{ headline }} · {% endif %}{{
+publication }}{%- endcapture -%}
+{%- assign summary = page.description | default: page.excerpt | default: site.description | strip_html |
+normalize_whitespace -%}
+{%- assign canonical = page.canonical_url | default: page.url | absolute_url -%}
+{%- assign photo = page.image | default: page.featured_image | default: page.artwork -%}
+{%- assign schema_type = 'WebPage' -%}
+{%- assign og_type = 'website' -%}
+{%- if page.collection == 'posts' or page.layout == 'post' -%}
+{%- assign schema_type = 'BlogPosting' -%}
+{%- assign og_type = 'article' -%}
+{%- assign author_name = site.data.authors[page.author].name | default: page.author -%}
+{%- elsif page.collection == 'episodes' or page.layout == 'episode' -%}
+{%- assign schema_type = 'PodcastEpisode' -%}
+{%- assign photo = photo | default: site.data.podcast.artwork -%}
+{%- elsif page.url == '/' -%}
+{%- assign schema_type = 'WebSite' -%}
+{%- assign headline = publication -%}
+{%- endif -%}
+{%- assign image_url = photo.path | default: photo | default: '/assets/images/brand/social.png' | absolute_url -%}
+<title>{{ browser_title | escape }}</title>
+{% if summary != empty %}
+<meta name="description" content="{{ summary | escape }}">{% endif %}
+{% if page.noindex or page.url == '/404.html' %}
+<meta name="robots" content="noindex, follow">{% endif %}
+<link rel="canonical" href="{{ canonical | escape }}">
+<link rel="alternate" type="application/atom+xml" title="{{ publication | escape }} blog feed"
+    href="{{ '/feed.xml' | relative_url }}">
+<link rel="icon" type="image/svg+xml" href="{{ '/assets/images/brand/favicon.svg' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:site_name" content="{{ publication | escape }}">
+<meta property="og:title" content="{{ headline | escape }}">
+<meta property="og:url" content="{{ canonical | escape }}">
+<meta property="og:image" content="{{ image_url | escape }}">
+{% if summary != empty %}
+<meta property="og:description" content="{{ summary | escape }}">{% endif %}
+{% if og_type == 'article' and page.date %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ headline | escape }}">
+<meta name="twitter:image" content="{{ image_url | escape }}">
+{% if summary != empty %}
+<meta name="twitter:description" content="{{ summary | escape }}">{% endif %}
+{%- capture structured_data -%}
+{
+"@context": "https://schema.org",
+"@type": {{ schema_type | jsonify }},
+"name": {{ headline | jsonify }},
+"url": {{ canonical | jsonify }},
+"image": {{ image_url | jsonify }},
+{% if summary != empty %}"description": {{ summary | jsonify }},{% endif %}
+{% if schema_type == 'BlogPosting' %}
+"headline": {{ headline | jsonify }},
+{% if author_name %}"author": {"@type": "Person", "name": {{ author_name | jsonify }}},{% endif %}
+{% elsif schema_type == 'PodcastEpisode' %}
+{% if page.episode_number %}"episodeNumber": {{ page.episode_number | jsonify }},{% endif %}
+{% if site.data.podcast.title %}"partOfSeries": {"@type": "PodcastSeries", "name": {{ site.data.podcast.title | jsonify
+}}},{% endif %}
+{% endif %}
+{% if page.date %}"datePublished": {{ page.date | date_to_xmlschema | jsonify }},{% endif %}
+"publisher": {"@type": "Organization", "name": {{ publication | jsonify }}, "url": {{ '/' | absolute_url | jsonify }}}
+}
+{%- endcapture -%}
+<script type="application/ld+json">{{ structured_data | replace: '<', '\u003c' }}</script>

@@ -1,0 +1,22 @@
+{% unless page.url == '/' %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        {% assign segments = page.url | split: '/' %}
+        {% assign path = '/' %}
+        {% for segment in segments %}
+        {% if segment == empty or forloop.last %}{% continue %}{% endif %}
+        {% assign path = path | append: segment | append: '/' %}
+        {% assign parent_url = path %}
+        {% case path %}
+        {% when '/blog/category/' %}{% assign parent_url = '/blog/categories/' %}
+        {% when '/blog/tag/' %}{% assign parent_url = '/blog/tags/' %}
+        {% endcase %}
+        {% assign parent_page = site.pages | where: 'url', parent_url | first %}
+        {% if parent_page.title %}<li><a href="{{ parent_url | relative_url | escape }}">{{ parent_page.title | escape
+                }}</a></li>{% endif %}
+        {% endfor %}
+        <li aria-current="page">{{ page.title | escape }}</li>
+    </ol>
+</nav>
+{% endunless %}

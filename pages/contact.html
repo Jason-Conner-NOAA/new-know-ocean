@@ -1,0 +1,25 @@
+---
+layout: page
+title: Contact
+description: General questions, editorial submissions, podcast guest suggestions and partnership inquiries.
+permalink: /contact/
+---
+<div class="prose">
+    <h2>General inquiries</h2>
+    {% assign email = site.email | default: '' | strip %}
+    {% if email != empty %}
+    <p>For any of the inquiries below, email <a href="mailto:{{ email | escape }}">{{ email | escape }}</a>. Include a
+        short subject that describes your request.</p>
+    {% else %}
+    <p>A public contact email has not been posted yet. This page does not accept submissions.</p>
+    {% endif %}
+    <h2>Editorial submissions and corrections</h2>
+    <p>For a pitch, outline the question, why it matters and the evidence you would draw on. For a correction, identify
+        the article and the specific text or image that needs review.</p>
+    <h2>Podcast guest inquiries</h2>
+    <p>Suggest a guest, the field experience or research they could discuss, and a question that would make a good
+        starting point for the conversation.</p>
+    <h2 id="partnerships">Partnership inquiries</h2>
+    <p>Identify the people or organizations involved, the proposed work and any financial interests relevant to the
+        story.</p>
+</div>

@@ -1,0 +1,21 @@
+---
+layout: page
+title: Search
+description: Search articles, podcast episodes and publication guides by title, topic or keyword.
+permalink: /search/
+search: false
+---
+<form role="search" hidden data-editorial-search data-index="{{ '/search.json' | relative_url }}"
+    action="{{ '/search/' | relative_url }}" method="get">
+    <label for="publication-query">Search the publication</label>
+    <input type="search" id="publication-query" name="q" placeholder="Try coastal change" maxlength="250">
+    <button type="submit">Search</button>
+</form>
+<p data-search-status role="status" aria-live="polite"></p>
+<ul class="article-list" data-search-results></ul>
+<noscript>
+    <p>Keyword search requires JavaScript.</p>
+</noscript>
+<p>Prefer to browse? Visit the <a href="{{ '/explore/topics/' | relative_url }}">topic guide</a> or the <a
+        href="{{ '/explore/archive/' | relative_url }}">publication archive</a>.</p>
+<script defer src="{{ '/assets/js/search.js' | relative_url }}"></script>

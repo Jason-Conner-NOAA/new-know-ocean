@@ -1,0 +1,25 @@
+---
+layout: page
+title: Author profiles
+eyebrow: About
+description: Biographical notes for the people who write for KnowOcean.
+permalink: /about/author/
+---
+<div class="prose">
+    {% assign profile_count = 0 %}
+    {% for entry in site.data.authors %}
+    {% assign author = entry[1] %}
+    {% assign name = author.name | strip %}
+    {% if name != empty %}
+    {% assign profile_count = profile_count | plus: 1 %}
+    <section>
+        <h2>{{ name | escape }}</h2>
+        <p>{{ author.bio | strip | default: 'A biography has not yet been published.' | escape }}</p>
+    </section>
+    {% endif %}
+    {% endfor %}
+    {% if profile_count == 0 %}
+    <p>No founder biography or contributor profiles have been published yet.</p>
+    {% endif %}
+    <p><a href="{{ '/explore/authors/' | relative_url }}">Browse articles by author</a>.</p>
+</div>

@@ -1,0 +1,11 @@
+{% if include.terms.size > 0 %}
+<ul class="article-list">
+    {% for pair in include.terms %}{% assign term = pair[1] %}
+    <li><a class="text-link" href="{{ term.url | relative_url }}">{{ term.name | escape }}</a> · {{ term.count }}
+        article{% unless term.count == 1 %}s{% endunless %}
+        {% if term.description %}<p>{{ term.description | escape }}</p>{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}<p>No {{ include.label | escape }} yet. <a href="{{ '/explore/topics/' | relative_url }}">Explore the topic
+        guide</a>.</p>{% endif %}

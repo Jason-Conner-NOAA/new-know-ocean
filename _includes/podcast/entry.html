@@ -1,0 +1,8 @@
+<article>
+    <p class="eyebrow">{% if include.episode.episode_number %}Episode {{ include.episode.episode_number | escape }} · {%
+        endif %}<time datetime="{{ include.episode.date | date_to_xmlschema }}">{{ include.episode.date | date: '%B %-d,
+            %Y' }}</time>{% if include.episode.duration %} · {{ include.episode.duration | escape }}{% endif %}</p>
+    <h3><a class="text-link" href="{{ include.episode.url | relative_url }}">{{ include.episode.title | escape }}</a>
+    </h3>
+    <p>{{ include.episode.description | escape }}</p>
+</article>

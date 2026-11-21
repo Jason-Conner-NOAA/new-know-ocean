@@ -1,0 +1,14 @@
+{% assign story = include.post %}
+{% assign primary_name = story.categories | first %}
+{% assign primary = site.data.editorial_categories[primary_name] %}
+<article class="article-entry">
+    {% if primary %}<p class="eyebrow"><a href="{{ primary.url | relative_url }}">{{ primary.name | escape }}</a></p>{%
+    endif %}
+    {% if include.heading == 'h3' %}<h3>{% else %}<h2>{% endif %}<a href="{{ story.url | relative_url }}">{{ story.title
+                | escape }}</a>{% if include.heading == 'h3' %}</h3>{% else %}</h2>{% endif %}
+    {% include article-meta.html post=story %}
+    <p>{{ story.description | default: story.excerpt | strip_html | normalize_whitespace | truncatewords: 45 | escape }}
+    </p>
+    <a class="text-link" href="{{ story.url | relative_url }}" aria-label="Read more: {{ story.title | escape }}">Read
+        more</a>
+</article>

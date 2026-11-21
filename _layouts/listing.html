@@ -1,0 +1,9 @@
+---
+layout: page
+---
+<nav aria-label="Browse the blog"><a href="{{ '/blog/categories/' | relative_url }}">Categories</a> · <a
+        href="{{ '/blog/tags/' | relative_url }}">Tags</a> · <a href="{{ '/blog/archive/' | relative_url }}">Archive by
+        year</a></nav>
+{% if page.pagination.number == 1 %}{% include editorial-featured.html %}{% endif %}
+<h2 class="section-title">Latest articles</h2>
+{% include editorial-list.html heading='h3' %}

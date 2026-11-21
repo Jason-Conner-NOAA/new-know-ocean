@@ -1,0 +1,13 @@
+title: KnowOcean Podcast
+description: Conversations about applied marine science, from the questions researchers ask to the decisions their work informs.
+about: The podcast is the audio companion to KnowOcean. Each episode has a page for listening, reading show notes, and following the science further.
+language: en
+explicit: false
+category: Science
+author:
+owner_name:
+owner_email:
+artwork:
+platforms: []
+# Enable only after validating the production feed and media. See docs/PODCAST.md.
+advertise_feed: false

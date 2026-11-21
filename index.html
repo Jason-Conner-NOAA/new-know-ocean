@@ -1,0 +1,91 @@
+---
+layout: default
+title: Home
+description: An independent field journal of applied marine science, from coastal change to life beneath the surface.
+image: /assets/images/brand/social.png
+---
+<section class="cover" aria-labelledby="cover-title">
+    <div class="cover-copy">
+        <p class="eyebrow edition">Independent field journal</p>
+        <h1 id="cover-title">Reading<br>the <em>ocean.</em></h1>
+        <p class="standfirst">A closer look at the living sea, the changing coast, and the science that connects them.
+        </p>
+        <a class="cover-link" href="#topic-index">Explore the topics <span aria-hidden="true">↓</span></a>
+    </div>
+    <figure class="plate">
+        <img src="{{ '/assets/images/san-miguel.jpg' | relative_url }}"
+            srcset="{{ '/assets/images/san-miguel-small.jpg' | relative_url }} 720w, {{ '/assets/images/san-miguel.jpg' | relative_url }} 1440w"
+            sizes="(max-width: 48rem) 94vw, (max-width: 78rem) 57vw, 45rem" width="1440" height="1080"
+            fetchpriority="high"
+            alt="California sea lions swimming through a sunlit kelp forest off San Miguel Island.">
+        <figcaption><span class="plate-no">Plate 01</span><span>San Miguel Island, California<br><a
+                    href="https://commons.wikimedia.org/wiki/File:California_sea_lions_in_the_kelp_forest_off_San_Miguel_Island.jpg">Claire
+                    Fackler / NOAA · Public domain</a></span></figcaption>
+    </figure>
+</section>
+
+<div class="journal-grid">
+    <section aria-labelledby="journal-title">
+        <p class="eyebrow">01 / The journal</p>
+        <h2 class="section-title" id="journal-title">From the field desk</h2>
+        {% assign feature = site.posts | where: 'featured', true | first %}
+        {% if feature %}
+        <div class="editor-pick">
+            <p class="eyebrow">Featured article</p>{% assign post = feature %}{% include article.html post=post %}
+        </div>
+        {% endif %}
+        {% if site.posts.size > 0 %}
+        <div class="article-list">
+            {% assign shown = 0 %}
+            {% for post in site.posts %}
+            {% unless post.url == feature.url %}
+            {% include article.html post=post %}
+            {% assign shown = shown | plus: 1 %}
+            {% if shown == 4 %}{% break %}{% endif %}
+            {% endunless %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="desk-note">The journal’s first pages are still ahead. In the meantime, the topic index outlines the
+            questions we’re interested in.</p>
+        {% endif %}
+        <a class="text-link" href="{{ '/blog/' | relative_url }}">Visit the article archive <span
+                aria-hidden="true">→</span></a>
+    </section>
+    <section id="topic-index" aria-labelledby="topics-title">
+        <p class="eyebrow">02 / Subject index</p>
+        <h2 class="section-title" id="topics-title">Browse by topic</h2>
+        <ol class="topic-index">
+            {% for topic in site.data.topics %}
+            {% assign slug = topic.slug | default: topic.name | slugify %}
+            <li><a href="{{ '/blog/category/' | append: slug | append: '/' | relative_url }}"><span class="index-number"
+                        aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><span><strong>{{
+                            topic.name | escape }}</strong><small>{{ topic.description | escape }}</small></span><span
+                        aria-hidden="true">↗</span></a></li>
+            {% endfor %}
+        </ol>
+    </section>
+</div>
+<div class="journal-grid colophon">
+    <section class="soundings">
+        <p class="eyebrow">03 / Podcast</p>
+        {% assign episode = site.episodes | sort: 'date' | last %}
+        {% if episode %}
+        <h2 class="section-title">{{ episode.title | escape }}</h2>
+        <p>{{ episode.description | escape }}</p>
+        <a class="text-link" href="{{ episode.url | relative_url }}">Explore the latest episode →</a>
+        {% else %}
+        <h2 class="section-title">The listening post</h2>
+        <p>Coming soon: an audio companion to the journal. No episodes have been published yet.</p>
+        <a class="text-link" href="{{ '/podcast/' | relative_url }}">About the podcast →</a>
+        {% endif %}
+    </section>
+    <section>
+        <p class="eyebrow">04 / About the publication</p>
+        <h2 class="section-title">A field journal for curious readers</h2>
+        <p>{{ site.title | default: 'KnowOcean' | escape }} is an independent publication about applied marine science.
+            We start with what can be observed and ask what it means for life along the coast and offshore.</p><a
+            class="text-link" href="{{ '/about/editorial-approach/' | relative_url }}">Our editorial approach →</a>
+    </section>
+</div>
+{% include newsletter.html %}

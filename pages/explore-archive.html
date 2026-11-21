@@ -1,0 +1,10 @@
+---
+layout: page
+title: Publication archive
+description: Articles and podcast episodes in one timeline, newest first.
+permalink: /explore/archive/
+---
+{% assign records = site.posts %}
+{% if site.episodes.size > 0 %}{% assign records = records | concat: site.episodes | sort: 'date' | reverse %}{% endif
+%}
+{% include editorial-chronology.html items=records %}

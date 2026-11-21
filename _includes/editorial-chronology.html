@@ -1,0 +1,13 @@
+{% assign years = include.items | group_by_exp: 'item', "item.date | date: '%Y'" %}
+{% for year in years %}
+<section>
+    <h2 class="section-title">{{ year.name }}</h2>
+    <ul class="article-list">{% for entry in year.items %}
+        <li><time datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: '%b %-d' }}</time> · <a
+                href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>{% if entry.collection == 'episodes'
+            %} (Podcast){% endif %}</li>
+        {% endfor %}
+    </ul>
+</section>
+{% else %}<p>Nothing has been published in this archive yet. <a class="text-link"
+        href="{{ '/explore/topics/' | relative_url }}">Browse the topic guide</a>.</p>{% endfor %}

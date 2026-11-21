@@ -1,0 +1,15 @@
+primary:
+  - { name: Home, url: / }
+  - { name: Explore, url: /explore/ }
+  - { name: Blog, url: /blog/ }
+  - { name: Podcast, url: /podcast/ }
+  - { name: About, url: /about/ }
+  - { name: Contact, url: /contact/ }
+footer:
+  - { name: About, url: /about/ }
+  - { name: Contact, url: /contact/ }
+  - { name: Search, url: /search/ }
+  - { name: Newsletter, url: /newsletter/ }
+  - { name: Blog feed, url: /feed.xml }
+  - { name: Privacy, url: /privacy/ }
+  - { name: Terms, url: /terms/ }

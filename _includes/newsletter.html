@@ -1,0 +1,11 @@
+<section class="newsletter" aria-label="Newsletter">
+    <p class="eyebrow">Newsletter</p>
+    <h2>Letters from the field desk</h2>
+    {% assign signup = site.newsletter_url | strip %}
+    {% if signup != empty %}
+    <a class="button" href="{{ signup | relative_url | escape }}">Sign up for the newsletter</a>
+    {% else %}
+    <p>Email subscriptions aren’t open yet. <a href="{{ '/feed.xml' | relative_url }}">Follow the blog feed</a> for new
+        articles.</p>
+    {% endif %}
+</section>
