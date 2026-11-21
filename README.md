@@ -4,7 +4,7 @@ KnowOcean is a static field journal about applied marine science. Articles can b
 
 ## Run locally
 
-The build foundation being added uses Ruby 3.3, Bundler and Jekyll 4.3. Once the Gemfile and site configuration are present, run the following from the repository root (on Windows, a Ruby-enabled WSL shell works too):
+Use Ruby 3.3 and Bundler. On Windows, run from native PowerShell with the RubyInstaller `bin` directory on the session's `PATH`. From the repository root:
 
 ```sh
 bundle install
@@ -26,9 +26,9 @@ Routes below are relative to the deployment root. On a project Pages site, prefi
 | Podcast | `/podcast/`, `/podcast/episodes/`, `/podcast/guests/`, `/podcast/about/`, `/podcast/subscribe/` | Featured episode, archive, guest index, show description and subscription options. Episode links use the collection documents’ permalinks. |
 | About | `/about/`, `/about/mission/`, `/about/editorial-approach/`, `/about/author/`, `/about/partners/` | Publication overview, mission, editorial policy, profiles and partnership disclosures. |
 | Reader services | `/contact/`, `/newsletter/`, `/search/`, `/privacy/`, `/terms/`, `/404.html` | Inquiry instructions, signup status, keyword search, policy pages and not-found page. |
-| Machine-readable | `/feed.xml`, `/podcast/feed.xml`, `/search.json`, `/sitemap.xml` | Blog Atom and XML sitemap depend on the build foundation; the podcast RSS and search index have dedicated source templates. |
+| Machine-readable | `/feed.xml`, `/podcast/feed.xml`, `/search.json`, `/sitemap.xml` | Jekyll Feed and Jekyll Sitemap generate the blog Atom feed and sitemap; the podcast RSS and search index have dedicated source templates. |
 
-Public page permalinks live in [pages](pages), not in the primary navigation. Edit [_data/navigation.yml](_data/navigation.yml) for header/footer links. Search has its own header link; its [client](assets/js/search.js) uses the [JSON index](pages/search-index.json), with topic/archive browsing available without JavaScript. The 404, podcast feed and search index templates set `sitemap: false`; this is separate from search-index inclusion (`search: false`) and robots metadata (`noindex`).
+Public page permalinks live in [pages](pages), not in the primary navigation. Edit [_data/navigation.yml](_data/navigation.yml) for header/footer links. Search has its own header link; its [client](assets/js/search.js) uses `/search.json`, generated from a [Liquid template](pages/search-index.liquid) so JSON formatters do not rewrite its tags. Topic/archive browsing is available without JavaScript. The 404, podcast feed and search index templates set `sitemap: false`; this is separate from search-index inclusion (`search: false`) and robots metadata (`noindex`).
 
 ## Publish an article
 
@@ -65,7 +65,7 @@ Before enabling a provider, replace the editable [privacy](pages/privacy.html) a
 
 ## Deploy to GitHub Pages
 
-1. With the build foundation in place, select **Settings → Pages → Build and deployment → Source: GitHub Actions**. Use the workflow build, not Pages’ default branch-based Jekyll build: the blog and taxonomies need the custom Ruby generator.
+1. Select **Settings → Pages → Build and deployment → Source: GitHub Actions**. Use the [Pages workflow](.github/workflows/pages.yml), not Pages’ default branch-based Jekyll build: the blog and taxonomies need the custom Ruby generator.
 2. Merge reviewed source to `main`. The deployment workflow builds the static site and deploys its output (`_site/`) to Pages. Do not edit the generated output. Check the build and deploy jobs in **Actions**; a failed build is not a successful publish.
 3. Actions derives `url` from the Pages origin and `baseurl` from its `base_path`. For `https://owner.github.io/journal/`, those are `https://owner.github.io` and `/journal`; for a root deployment the base path is empty. Do not hard-code the repository name into content. Use `relative_url` for internal links/assets and `absolute_url` for canonical and feed URLs.
 4. Open the deployed URL from the workflow. Follow a nested navigation link, load an image, try an article search, and check a category archive. Inspect a canonical link, `/sitemap.xml`, `/feed.xml` and `/podcast/feed.xml` at the deployed base path. Expect production HTTPS URLs, no localhost, and no missing or doubled repository prefix. Parse `/search.json` as JSON rather than relying on an HTTP success code alone.

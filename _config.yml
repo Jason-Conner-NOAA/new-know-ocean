@@ -1,0 +1,30 @@
+title: KnowOcean
+description: An independent field journal of applied marine science.
+lang: en
+url: http://localhost:4000
+baseurl: ""
+email:
+newsletter_url:
+
+permalink: /blog/:year/:month/:day/:title/
+editorial_page_size: 10
+collections:
+  episodes:
+    output: true
+    permalink: /podcast/episodes/:name/
+defaults:
+  - scope: {path: "", type: posts}
+    values: {layout: post}
+  - scope: {path: "", type: episodes}
+    values: {layout: episode}
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - docs
+  - plan.md
